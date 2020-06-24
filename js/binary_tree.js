@@ -15,8 +15,8 @@ class BinaryTree {
     }
 
     //exibe o maior valor da arvore
-    max() {                     //Criação da função
-        let current = this.root                                 //current recebe o valor da raiz 
+    max() {                                                     //Criação da função
+        let current = this.root                                 //Current recebe o valor da raiz 
         if (current == null)                                    //Verifica se current é igual a null
             return null                                         //Caso seja, retorna null
         while (current.right != null)                           //Enquanto o valor da direita do nó for diferente de nulo current recebe o seu valor
@@ -44,12 +44,12 @@ class BinaryTree {
         this.inOrderVisitor(this.root, callback)     //Inicia o método a partir da raiz
     }
 
-    inOrderVisitor(node, callback) {
+    inOrderVisitor(node, callback) {                //Função para mostrar os valores em ordem
         if (node == null)                           //Verifica se node é igual a null
             return                                  //Caso seja, encerra a função
-        this.inOrderVisitor(node.left, callback)    
-        callback(node.content)
-        this.inOrderVisitor(node.right, callback)
+        this.inOrderVisitor(node.left, callback)    //Mostra o valor da sub-árvore esquerda
+        callback(node.content)                      //Mostra o valor da raiz
+        this.inOrderVisitor(node.right, callback)   //Mostra o valor da sub-árvore direita 
     }
 
     
@@ -57,12 +57,12 @@ class BinaryTree {
         this.preOrderVisitor(this.root, callback)   //Inicia o método a partir da raiz
     }
 
-    preOrderVisitor(node, callback) {
-        if (node == null)
-            return
-        callback(node.content)
-        this.preOrderVisitor(node.left, callback)
-        this.preOrderVisitor(node.right, callback)
+    preOrderVisitor(node, callback) {               //Função para mostrar os valores em pré-ordem
+        if (node == null)                           //Verifica se node é igual a null
+            return                                  //Caso seja, encerra a função
+        callback(node.content)                      //Mostra o valor da raiz
+        this.preOrderVisitor(node.left, callback)   //Mostra o valor da sub-árvore esquerda
+        this.preOrderVisitor(node.right, callback)  //Mostra o valor da sub-árvore direita 
     }
 
     
@@ -70,22 +70,14 @@ class BinaryTree {
         this.postOrderVisitor(this.root, callback)  //Inicia o método a partir da raiz
     }
 
-    postOrderVisitor(node, callback) {
-        if (node == null)
-            return
-        this.postOrderVisitor(node.left, callback)
-        this.postOrderVisitor(node.right, callback)
-        callback(node.content)
+    postOrderVisitor(node, callback) {              //Função para mostrar os valores em pós-ordem
+        if (node == null)                           //Verifica se node é igual a null
+            return                                  //Caso seja, encerra a função
+        this.postOrderVisitor(node.left, callback)  //Mostra o valor da sub-árvore esquerda
+        this.postOrderVisitor(node.right, callback) //Mostra o valor da sub-árvore direita 
+        callback(node.content)                      //Mostra o valor da raiz
     }
-
-     
     
-    
-    //    2. É igual ao conteúdo? achou
-    //    3. É maior que o conteúdo?
-    //       3.1 busca de direita
-    //       3.2 busca na esquerda
-
     search(value) {                                        //Busca na árvore binária
         return this.searchVisitor(this.root, value)        //Inicia o método a partir da raiz
     }
@@ -111,27 +103,25 @@ class BinaryTree {
             if (node.left == node.right) {      //Verifica se o nó da esquerda é igual ao nó da direita
                 //nao tem filhos - Grau 0
                 return null                     //Caso seja, retorna null
-            } else if (node.right == null) {    //Verifica se o nó da direita é igual a null
-                //não tem filhos na direita, e tem nó na esqueda - Grau 1
-                return node.left                
+            } else if (node.right == null) {    //Verifica se o nó da direita é igual a null                
+                return node.left                //Caso seja, não tem filhos na direita, e tem nó na esqueda - Grau 1
             } else if (node.left == null) {     //Verifica se o nó da esquerda é igual a null
-                //não tem filhos da esquerda, e tem nó da direita - Grau 1
-                return node.right
+                return node.right               //Caso seja, não tem filhos da esquerda, e tem nó da direita - Grau 1
             } else {
                 // tem os dois ramos - Grau 2
-                const newRoot = node.right
-                let current = node.right;
-                while (current.left != null)
-                    current = current.left
-                current.left = node.left
-                return newRoot;
+                const newRoot = node.right      //Criação de um novo node a partir do node da direita
+                let current = node.right;       
+                while (current.left != null)    //Percorre os nós da esquerda até encontrar o valor null 
+                    current = current.left      //Recebe os nós do antigo node
+                current.left = node.left        //Recebe os nós do antigo node
+                return newRoot;                 //Retorna o novo node
             }
-        } else if (value < node.content) {
-            node.left = this.removeVisitor(node.left, value)
+        } else if (value < node.content) {              
+            node.left = this.removeVisitor(node.left, value)    //Remove o nó da esquerda
         } else {
-            node.right = this.removeVisitor(node.right, value)
+            node.right = this.removeVisitor(node.right, value)  //Remove o nó da direita
         }
-        return node;
+        return node;                                            //Retorna o nó removido
     }
 
     //exibe a altura da arvore
@@ -153,8 +143,8 @@ class BinaryTree {
     }
 
     sizeVisitor(node) {
-        if (!node)           //Verifica se há algum nó
-            return 0         //Caso esteja vazio, retorna 0
-        return this.sizeVisitor(node.left) + this.sizeVisitor(node.right) + 1   //Retorna a soma do tamanho da esquerda mais o tamanho da direita, e soma +1
+        if (!node)                                                             //Verifica se há algum nó
+            return 0                                                           //Caso esteja vazio, retorna 0
+        return this.sizeVisitor(node.left) + this.sizeVisitor(node.right) + 1  //Retorna a soma do tamanho da esquerda mais o tamanho da direita, e soma +1
     }
 }
